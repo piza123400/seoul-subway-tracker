@@ -1,14 +1,14 @@
 /**
- * Seoul Subway Tracker – app.js
- * Contains subway line/station data and all UI logic.
+ * 서울 지하철 트래커 – app.js
+ * 지하철 노선/역 데이터 및 모든 UI 로직을 포함합니다.
  */
 
-// ── Data ─────────────────────────────────────────────────────────────────────
+// ── 데이터 ────────────────────────────────────────────────────────────────────
 
 const LINES = [
   {
     id: 'line1',
-    name: 'Line 1',
+    name: '1호선',
     color: '#0052A4',
     stations: [
       'Soyosan', 'Dongducheon', 'Bosan', 'Dongducheon-Jungangno',
@@ -23,7 +23,7 @@ const LINES = [
   },
   {
     id: 'line2',
-    name: 'Line 2',
+    name: '2호선',
     color: '#00A84D',
     stations: [
       'Siheung', 'Sindorim', 'Mullae', 'Yeongdeungpo-gu Office',
@@ -40,7 +40,7 @@ const LINES = [
   },
   {
     id: 'line3',
-    name: 'Line 3',
+    name: '3호선',
     color: '#EF7C1C',
     stations: [
       'Daehwa', 'Juyeop', 'Jeongbalsan', 'Madu', 'Hwajeong', 'Wonheung',
@@ -55,7 +55,7 @@ const LINES = [
   },
   {
     id: 'line4',
-    name: 'Line 4',
+    name: '4호선',
     color: '#00A5DE',
     stations: [
       'Danggogae', 'Dobongsan', 'Ssangmun', 'Suyu', 'Mia', 'Miasageori',
@@ -70,7 +70,7 @@ const LINES = [
   },
   {
     id: 'line5',
-    name: 'Line 5',
+    name: '5호선',
     color: '#996CAC',
     stations: [
       'Banghwa', 'Gonghang Market', 'Sinbanghwa', 'Magok', 'Balhyeon',
@@ -87,7 +87,7 @@ const LINES = [
   },
   {
     id: 'line6',
-    name: 'Line 6',
+    name: '6호선',
     color: '#CD7C2F',
     stations: [
       'Eungam', 'Bulgwang', 'Yeonsinnae', 'Gusan', 'Sinjeong', 'Mapo-gu Office',
@@ -100,7 +100,7 @@ const LINES = [
   },
   {
     id: 'line7',
-    name: 'Line 7',
+    name: '7호선',
     color: '#747F00',
     stations: [
       'Jangsam', 'Gwanaksan', 'Cheolsan', 'Gwangmyeongsageori',
@@ -115,7 +115,7 @@ const LINES = [
   },
   {
     id: 'line8',
-    name: 'Line 8',
+    name: '8호선',
     color: '#E51C23',
     stations: [
       'Amsa', 'Mongchontoseong', 'Ogeum', 'Garak Market', 'Munjeong',
@@ -126,7 +126,7 @@ const LINES = [
   },
   {
     id: 'line9',
-    name: 'Line 9',
+    name: '9호선',
     color: '#BDB427',
     stations: [
       'Gaehwa', 'Gimpo Intl Airport', 'Sinbanghwa', 'Yangcheon Hyanggyo',
@@ -142,7 +142,7 @@ const LINES = [
   }
 ];
 
-// Build a lookup: station name -> lines
+// 역명 -> 노선 목록 매핑 테이블 생성
 const stationLineMap = {};
 LINES.forEach(line => {
   line.stations.forEach(station => {
@@ -151,7 +151,7 @@ LINES.forEach(line => {
   });
 });
 
-// Transfer stations (appear on 2+ lines)
+// 환승역 (2개 이상 노선 운행)
 const transferStations = new Set(
   Object.entries(stationLineMap)
     .filter(([, lines]) => lines.length > 1)
@@ -164,11 +164,11 @@ function escapeText(s) { return s.replace(/&/g, '&amp;'); }
 let activeLines = new Set(LINES.map(l => l.id));
 let selectedStation = null;
 
-// ── DOM helpers ──────────────────────────────────────────────────────────────
+// ── DOM 헬퍼 ─────────────────────────────────────────────────────────────────
 
 function $(id) { return document.getElementById(id); }
 
-// ── Render line filter pills ─────────────────────────────────────────────────
+// ── 노선 필터 버튼 렌더링 ─────────────────────────────────────────────────────
 
 function renderLineFilters() {
   const container = $('line-filters');
@@ -193,7 +193,7 @@ function toggleLine(lineId) {
   renderMap();
 }
 
-// ── Render subway map ────────────────────────────────────────────────────────
+// ── 노선도 렌더링 ─────────────────────────────────────────────────────────────
 
 function renderMap() {
   const container = $('subway-map');
@@ -215,7 +215,7 @@ function renderMap() {
     track.className = 'stations-track';
 
     line.stations.forEach((station, i) => {
-      // Track segment before the station
+      // 역 사이 선 렌더링
       if (i > 0) {
         const seg = document.createElement('div');
         seg.className = 'track-line';
@@ -246,7 +246,7 @@ function renderMap() {
   });
 }
 
-// ── Show station info ────────────────────────────────────────────────────────
+// ── 역 정보 표시 ─────────────────────────────────────────────────────────────
 
 function showStation(stationName) {
   selectedStation = stationName;
@@ -258,7 +258,7 @@ function showStation(stationName) {
     .map(l => `<span class="badge" style="background:${l.color}">${l.name}</span>`)
     .join('');
 
-  // Adjacent stations
+  // 인접 역 계산
   const adjacents = new Set();
   lines.forEach(line => {
     const idx = line.stations.indexOf(stationName);
@@ -273,9 +273,9 @@ function showStation(stationName) {
   card.innerHTML = `
     <h3>${stationName}</h3>
     <div class="lines-row">${badgesHtml}</div>
-    ${transferStations.has(stationName) ? '<p style="color:#e67e22;font-size:0.85rem;margin-bottom:0.6rem">⚡ Transfer Station</p>' : ''}
-    <p class="connections-label">Adjacent stations:</p>
-    <div class="connections-list">${adjHtml || '<span style="color:#888;font-size:0.85rem">None</span>'}</div>
+    ${transferStations.has(stationName) ? '<p style="color:#e67e22;font-size:0.85rem;margin-bottom:0.6rem">⚡ 환승역</p>' : ''}
+    <p class="connections-label">인접 역:</p>
+    <div class="connections-list">${adjHtml || '<span style="color:#888;font-size:0.85rem">없음</span>'}</div>
   `;
 
   card.querySelectorAll('.conn-item[data-station]').forEach(el => {
@@ -286,7 +286,7 @@ function showStation(stationName) {
   infoSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ── Search ───────────────────────────────────────────────────────────────────
+// ── 검색 ─────────────────────────────────────────────────────────────────────
 
 function getAllStations() {
   return Object.keys(stationLineMap);
@@ -304,7 +304,7 @@ function renderSearchResults(query) {
     .slice(0, 10);
 
   if (matches.length === 0) {
-    resultsEl.innerHTML = '<div style="padding:0.75rem 1rem;color:#888;">No stations found.</div>';
+    resultsEl.innerHTML = '<div style="padding:0.75rem 1rem;color:#888;">검색 결과가 없습니다.</div>';
     resultsEl.classList.remove('hidden');
     return;
   }
@@ -332,7 +332,71 @@ function renderSearchResults(query) {
   });
 }
 
-// ── Init ─────────────────────────────────────────────────────────────────────
+// ── 실시간 도착정보 ───────────────────────────────────────────────────────────
+
+// 백엔드 API 주소
+const BACKEND_URL = 'http://localhost:3000';
+
+/**
+ * 실시간 도착정보를 백엔드에서 조회하여 화면에 표시합니다.
+ */
+async function fetchRealtimeData() {
+  const statusEl = $('realtime-status');
+  const listEl = $('realtime-list');
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/realtime?limit=20`);
+    if (!response.ok) {
+      throw new Error(`HTTP 오류: ${response.status}`);
+    }
+    const result = await response.json();
+
+    if (!result.success) {
+      throw new Error(result.message || '실시간 도착정보를 불러올 수 없습니다');
+    }
+
+    const data = result.data || [];
+    const now = new Date().toLocaleTimeString('ko-KR');
+
+    if (data.length === 0) {
+      statusEl.textContent = `마지막 업데이트: ${now} · 도착정보 없음`;
+      listEl.innerHTML = '<div style="color:#888;font-size:0.88rem;padding:0.5rem 0;">현재 도착 예정 열차 정보가 없습니다.</div>';
+      return;
+    }
+
+    statusEl.textContent = `마지막 업데이트: ${now} · ${data.length}개 열차 정보`;
+
+    // 도착정보 카드 렌더링
+    listEl.innerHTML = data.map(item => {
+      const barvlSec = parseInt(item.barvlDt, 10);
+      const arrivalText = isNaN(barvlSec)
+        ? item.barvlDt
+        : barvlSec === 0
+          ? '곧 도착'
+          : `${barvlSec}초 후`;
+
+      return `
+        <div class="realtime-card">
+          <div class="station-name">🚉 ${item.statnNm}</div>
+          <div class="line-name">노선: ${item.trainLineNm}</div>
+          <div class="arrival-time">도착: ${arrivalText}</div>
+          <div class="arrival-msg">${item.arvlMsg2}</div>
+          <div class="arrival-msg">${item.arvlMsg3}</div>
+          <div><span class="direction">${item.updnLine}</span></div>
+        </div>`;
+    }).join('');
+
+  } catch (err) {
+    console.error('실시간 도착정보 조회 실패:', err.message);
+    statusEl.textContent = '실시간 정보를 불러올 수 없습니다 (백엔드 서버 연결 필요)';
+    listEl.innerHTML = `<div style="color:#c0392b;font-size:0.85rem;padding:0.5rem 0;">
+      ⚠️ 백엔드 서버(${BACKEND_URL})에 연결할 수 없습니다.<br>
+      서버를 실행하고 SEOUL_API_KEY를 설정해 주세요.
+    </div>`;
+  }
+}
+
+// ── 초기화 ────────────────────────────────────────────────────────────────────
 
 function init() {
   renderLineFilters();
@@ -360,13 +424,28 @@ function init() {
     }
   });
 
-  // Close results when clicking outside
+  // 검색창 외부 클릭 시 결과 숨기기
   document.addEventListener('click', e => {
     const t = e.target;
     if (!t.closest('.search-box') && !t.closest('.search-results')) {
       $('search-results').classList.add('hidden');
     }
   });
+
+  // 실시간 도착정보 초기 로드 및 3초마다 갱신
+  fetchRealtimeData();
+  const realtimeInterval = setInterval(fetchRealtimeData, 3000);
+
+  // 페이지 숨김 상태에서 폴링 일시 중지 (배터리/네트워크 절약)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      clearInterval(realtimeInterval);
+    } else {
+      fetchRealtimeData();
+      setInterval(fetchRealtimeData, 3000);
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
