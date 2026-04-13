@@ -1,49 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seoul Subway Tracker</title>
+  <title>서울 지하철 트래커</title>
+  <!-- 한글 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>🚇 Seoul Subway Tracker</h1>
-    <p class="subtitle">Real-time Seoul Metropolitan Subway Information</p>
+    <h1>🚇 서울 지하철 트래커</h1>
+    <p class="subtitle">서울 지하철 실시간 정보 서비스</p>
   </header>
 
   <main>
+    <!-- 역 검색 섹션 -->
     <section class="search-section">
       <div class="search-box">
         <input
           type="text"
           id="station-search"
-          placeholder="Search for a station..."
+          placeholder="역 이름을 검색하세요..."
           autocomplete="off"
         />
-        <button id="search-btn">Search</button>
+        <button id="search-btn">검색</button>
       </div>
       <div id="search-results" class="search-results hidden"></div>
     </section>
 
+    <!-- 노선 필터 섹션 -->
     <section class="lines-section">
-      <h2>Lines</h2>
+      <h2>노선</h2>
       <div class="line-filters" id="line-filters"></div>
     </section>
 
+    <!-- 역 정보 섹션 -->
     <section class="station-info" id="station-info" style="display:none;">
-      <h2>Station Information</h2>
+      <h2>역 정보</h2>
       <div class="station-card" id="station-card"></div>
     </section>
 
+    <!-- 실시간 도착정보 섹션 -->
+    <section class="realtime-section" id="realtime-section">
+      <h2>🔴 실시간 도착정보</h2>
+      <div class="realtime-status" id="realtime-status">데이터를 불러오는 중...</div>
+      <div class="realtime-list" id="realtime-list"></div>
+    </section>
+
+    <!-- 노선도 섹션 -->
     <section class="map-section">
-      <h2>Subway Map</h2>
+      <h2>노선도</h2>
       <div class="subway-map" id="subway-map"></div>
     </section>
   </main>
 
   <footer>
-    <p>Data based on Seoul Metropolitan Subway network.</p>
+    <p>서울 지하철 노선 데이터 기반 · 실시간 정보: 서울 공개데이터 API</p>
   </footer>
 
   <script src="app.js"></script>

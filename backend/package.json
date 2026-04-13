@@ -8,13 +8,20 @@
     "dev": "nodemon src/server.js",
     "test": "node --test"
   },
-  "keywords": ["subway", "seoul", "realtime", "tracker"],
+  "keywords": [
+    "subway",
+    "seoul",
+    "realtime",
+    "tracker"
+  ],
   "author": "piza123400",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "node-fetch": "^2.7.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
