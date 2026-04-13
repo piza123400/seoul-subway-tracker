@@ -17,7 +17,7 @@ async function getRealtimeArrivals(start = 1, end = 100) {
   const apiKey = process.env.SEOUL_API_KEY;
 
   // API 키 미설정 시 에러 처리
-  if (!apiKey || apiKey === 'YOUR_SEOUL_SUBWAY_API_KEY' || apiKey === 'YOUR_API_KEY_HERE') {
+  if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
     throw new Error('API 키가 설정되지 않았습니다');
   }
 

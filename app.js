@@ -434,7 +434,17 @@ function init() {
 
   // 실시간 도착정보 초기 로드 및 3초마다 갱신
   fetchRealtimeData();
-  setInterval(fetchRealtimeData, 3000);
+  const realtimeInterval = setInterval(fetchRealtimeData, 3000);
+
+  // 페이지 숨김 상태에서 폴링 일시 중지 (배터리/네트워크 절약)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      clearInterval(realtimeInterval);
+    } else {
+      fetchRealtimeData();
+      setInterval(fetchRealtimeData, 3000);
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init);
