@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seoul Subway Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🚇 Seoul Subway Tracker</h1>
+    <p class="subtitle">Real-time Seoul Metropolitan Subway Information</p>
+  </header>
+
+  <main>
+    <section class="search-section">
+      <div class="search-box">
+        <input
+          type="text"
+          id="station-search"
+          placeholder="Search for a station..."
+          autocomplete="off"
+        />
+        <button id="search-btn">Search</button>
+      </div>
+      <div id="search-results" class="search-results hidden"></div>
+    </section>
+
+    <section class="lines-section">
+      <h2>Lines</h2>
+      <div class="line-filters" id="line-filters"></div>
+    </section>
+
+    <section class="station-info" id="station-info" style="display:none;">
+      <h2>Station Information</h2>
+      <div class="station-card" id="station-card"></div>
+    </section>
+
+    <section class="map-section">
+      <h2>Subway Map</h2>
+      <div class="subway-map" id="subway-map"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Data based on Seoul Metropolitan Subway network.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
